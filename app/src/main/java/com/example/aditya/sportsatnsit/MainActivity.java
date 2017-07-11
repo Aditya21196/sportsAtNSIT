@@ -1,23 +1,21 @@
 package com.example.aditya.sportsatnsit;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
-    private static final int GPS_ERRORDIALOG_REQUEST = 9001 ;
-    private static int TIME_OUT = 3000; //Time to launch the another activity
-
-
-
-//change
-
+    private static final int GPS_ERRORDIALOG_REQUEST = 9001;
+    private static int TIME_OUT = 1000; //Time to launch the another activity
+    public static String YEAR;
+    public static String BRANCH;
+    public static Integer SECTION;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +28,19 @@ public class MainActivity extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(MainActivity.this, FirebaseActivity.class);
+                SharedPreferences sharedPreferences = getSharedPreferences("Data", Context.MODE_PRIVATE);
+                YEAR = sharedPreferences.getString("year", "na");
+                BRANCH = sharedPreferences.getString("branch", "na");
+                SECTION = sharedPreferences.getInt("section", -1);
+                Intent i;
+                if (SECTION.equals(-1)) {
+                    i = new Intent(MainActivity.this, LogInActivity.class);
+                } else {
+                    i = new Intent(MainActivity.this, FirebaseActivity.class);
+                }
                 startActivity(i);
                 finish();
             }
-
-
         }, TIME_OUT);
 
 
