@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -34,7 +33,6 @@ public class LogInActivity extends AppCompatActivity {
                 editor.apply();
 
                 MainActivity.YEAR = sharedPreferences.getString("year", "na");
-                Log.i("Login", MainActivity.YEAR);
                 MainActivity.BRANCH = sharedPreferences.getString("branch", "na");
                 MainActivity.SECTION = sharedPreferences.getInt("section", -1);
 
