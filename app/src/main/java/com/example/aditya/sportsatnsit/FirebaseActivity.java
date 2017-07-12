@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -75,9 +76,14 @@ public class FirebaseActivity extends AppCompatActivity {
 
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 50, 0, 0);
+        ll.setLayoutParams(params);
         mFrame.addView(ll);
 
         Spinner spinnerYear = new Spinner(this);
+        params.setMargins(20, 0, 0, 0);
+        spinnerYear.setLayoutParams(params);
         List<String> spinnerArray = new ArrayList<String>();
         spinnerArray.add("1st Year");
         spinnerArray.add("2nd Year");
@@ -90,6 +96,8 @@ public class FirebaseActivity extends AppCompatActivity {
         ((LinearLayout) ll).addView(spinnerYear);
 
         ListView list = new ListView(this);
+        params.setMargins(0, 30, 0, 0);
+        list.setLayoutParams(params);
         ArrayList<String> sportsArrayList = new ArrayList<>();
         sportsArrayList.add("Football");
         sportsArrayList.add("Kabaddi");
