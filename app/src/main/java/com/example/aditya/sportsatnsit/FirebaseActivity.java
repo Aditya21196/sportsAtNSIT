@@ -5,11 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FirebaseActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
+    private FrameLayout mFrame;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -21,7 +30,7 @@ public class FirebaseActivity extends AppCompatActivity {
                     home();
                     return true;
                 case R.id.navigation_all:
-                    mTextMessage.setText("All");
+                    all();
                     return true;
             }
             return false;
@@ -34,13 +43,65 @@ public class FirebaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        mFrame = (FrameLayout) findViewById(R.id.frame);
+//        mTextMessage = (TextView) findViewById(R.id.message);
         home();
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
     private void home() {
-        mTextMessage.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION);
+//        mTextMessage.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION);
+        mFrame.removeAllViews();
+
+        ListView list = new ListView(this);
+        ArrayList<String> sportsArrayList = new ArrayList<>();
+        sportsArrayList.add("Football");
+        sportsArrayList.add("Kabaddi");
+        sportsArrayList.add("Cricket");
+        sportsArrayList.add("Basketball");
+        sportsArrayList.add("Tabletennis");
+        sportsArrayList.add("Chess");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                sportsArrayList);
+        list.setAdapter(arrayAdapter);
+        mFrame.addView(list);
+    }
+
+    private void all() {
+        mFrame.removeAllViews();
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        mFrame.addView(ll);
+
+        Spinner spinnerYear = new Spinner(this);
+        List<String> spinnerArray = new ArrayList<String>();
+        spinnerArray.add("1st Year");
+        spinnerArray.add("2nd Year");
+        spinnerArray.add("3rd Year");
+        spinnerArray.add("4th Year");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_spinner_item, spinnerArray);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerYear.setAdapter(adapter);
+        ((LinearLayout) ll).addView(spinnerYear);
+
+        ListView list = new ListView(this);
+        ArrayList<String> sportsArrayList = new ArrayList<>();
+        sportsArrayList.add("Football");
+        sportsArrayList.add("Kabaddi");
+        sportsArrayList.add("Cricket");
+        sportsArrayList.add("Basketball");
+        sportsArrayList.add("Tabletennis");
+        sportsArrayList.add("Chess");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                sportsArrayList);
+        list.setAdapter(arrayAdapter);
+        ll.addView(list);
     }
 }
