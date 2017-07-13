@@ -20,7 +20,8 @@
             android:name=".FirebaseActivity"
             android:label="@string/title_activity_firebase"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LogInActivity"></activity>
+        <activity android:name=".LogInActivity" />
+        <activity android:name=".ScoreBoard"></activity>
     </application>
 
 </manifest>

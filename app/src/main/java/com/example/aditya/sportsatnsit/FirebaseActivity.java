@@ -1,25 +1,37 @@
 package com.example.aditya.sportsatnsit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+
     private FrameLayout mFrame;
+    private ListView list;
+    private ArrayList<String> sportsArrayList = new ArrayList<>();
+    private ArrayAdapter<String> arrayAdapter;
+    private AdapterView.OnItemClickListener itemClickListener;
+    private Spinner spinnerYear;
+
+    static protected String selectedYear;
+    static protected String selectedSport;
+    static protected boolean home = true;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -45,45 +57,20 @@ public class FirebaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_firebase);
 
         mFrame = (FrameLayout) findViewById(R.id.frame);
-//        mTextMessage = (TextView) findViewById(R.id.message);
-        home();
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-    private void home() {
-//        mTextMessage.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION);
-        mFrame.removeAllViews();
-
-        ListView list = new ListView(this);
-        ArrayList<String> sportsArrayList = new ArrayList<>();
         sportsArrayList.add("Football");
         sportsArrayList.add("Kabaddi");
         sportsArrayList.add("Cricket");
         sportsArrayList.add("Basketball");
         sportsArrayList.add("Tabletennis");
         sportsArrayList.add("Chess");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        list = new ListView(this);
+        arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 sportsArrayList);
         list.setAdapter(arrayAdapter);
-        mFrame.addView(list);
-    }
 
-    private void all() {
-        mFrame.removeAllViews();
-
-        LinearLayout ll = new LinearLayout(this);
-        ll.setOrientation(LinearLayout.VERTICAL);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 50, 0, 0);
-        ll.setLayoutParams(params);
-        mFrame.addView(ll);
-
-        Spinner spinnerYear = new Spinner(this);
-        params.setMargins(20, 0, 0, 0);
-        spinnerYear.setLayoutParams(params);
+        spinnerYear = new Spinner(this);
         List<String> spinnerArray = new ArrayList<String>();
         spinnerArray.add("1st Year");
         spinnerArray.add("2nd Year");
@@ -93,23 +80,58 @@ public class FirebaseActivity extends AppCompatActivity {
                 this, android.R.layout.simple_spinner_item, spinnerArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerYear.setAdapter(adapter);
+
+        itemClickListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedSport = sportsArrayList.get(position);
+                selectedYear = String.valueOf(spinnerYear.getSelectedItem());
+                Intent intent = new Intent(FirebaseActivity.this, ScoreBoard.class);
+                startActivity(intent);
+            }
+        };
+
+        home();
+
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private void home() {
+//        mTextMessage.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION);
+        home = true;
+        mFrame.removeAllViews();
+
+        if (list.getParent() != null)
+            ((ViewGroup) list.getParent()).removeView(list);
+        mFrame.addView(list);
+
+        list.setOnItemClickListener(itemClickListener);
+    }
+
+    private void all() {
+        home = false;
+        mFrame.removeAllViews();
+
+        LinearLayout ll = new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 50, 0, 0);
+        ll.setLayoutParams(params);
+        mFrame.addView(ll);
+
+        params.setMargins(20, 0, 0, 0);
+        spinnerYear.setLayoutParams(params);
+        if (spinnerYear.getParent() != null)
+            ((ViewGroup) spinnerYear.getParent()).removeView(spinnerYear);
         ((LinearLayout) ll).addView(spinnerYear);
 
-        ListView list = new ListView(this);
         params.setMargins(0, 30, 0, 0);
         list.setLayoutParams(params);
-        ArrayList<String> sportsArrayList = new ArrayList<>();
-        sportsArrayList.add("Football");
-        sportsArrayList.add("Kabaddi");
-        sportsArrayList.add("Cricket");
-        sportsArrayList.add("Basketball");
-        sportsArrayList.add("Tabletennis");
-        sportsArrayList.add("Chess");
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                sportsArrayList);
-        list.setAdapter(arrayAdapter);
+        if (list.getParent() != null)
+            ((ViewGroup) list.getParent()).removeView(list);
         ll.addView(list);
+
+        list.setOnItemClickListener(itemClickListener);
     }
 }
