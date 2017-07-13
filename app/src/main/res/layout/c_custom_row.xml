@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/t1f2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:textSize="35sp"
+        android:layout_marginTop="10dp"
+        android:text="NA" />
+
+    <TextView
+        android:id="@+id/t2f2"
+        android:layout_marginTop="10dp"
+        android:textSize="35sp"
+        android:layout_marginRight="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="NA" />
+
+    <TextView
+        android:id="@+id/datef2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/t2f2"
+        android:layout_centerHorizontal="true"
+        android:textSize="15sp"
+        android:text="Date" />
+
+    <TextView
+        android:id="@+id/Score"
+        android:textSize="23sp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/datef2"
+        android:text="Score"
+        android:layout_marginBottom="8dp" />
+
+</RelativeLayout>
