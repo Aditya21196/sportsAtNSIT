@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 
+//Structure Done
 
 public class MainActivity extends Activity {
     private static final int GPS_ERRORDIALOG_REQUEST = 9001;
