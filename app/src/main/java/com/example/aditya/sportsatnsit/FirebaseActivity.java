@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,9 @@ public class FirebaseActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_all:
                     all();
+                    return true;
+                case R.id.navigation_changeHome:
+                    change();
                     return true;
             }
             return false;
@@ -133,5 +137,11 @@ public class FirebaseActivity extends AppCompatActivity {
         ll.addView(list);
 
         list.setOnItemClickListener(itemClickListener);
+    }
+
+    public void change() {
+        Toast.makeText(this, "Ditching your Home Team? Sure?", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(FirebaseActivity.this, LogInActivity.class));
+        finish();
     }
 }

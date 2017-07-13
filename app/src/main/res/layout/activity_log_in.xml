@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -7,15 +8,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="What's your home team?"
+            android:textAlignment="center"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/textYear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:text="Year"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="6dp"
             android:textSize="20sp" />
 
         <Spinner
@@ -24,19 +36,13 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:entries="@array/yearTypes" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textBranch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="6dp"
             android:text="Branch"
             android:textSize="20sp" />
 
@@ -44,21 +50,14 @@
             android:id="@+id/spinnerBranch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="6dp"
             android:entries="@array/branchTypes" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical">
-
         <TextView
             android:id="@+id/textSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="6dp"
             android:text="Section"
             android:textSize="20sp" />
 
@@ -66,25 +65,23 @@
             android:id="@+id/spinnerSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_margin="6dp"
             android:entries="@array/sectionTypes" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center">
+
+
+            <ImageButton
+                android:id="@+id/buttonGo"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/right_arrow_button" />
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonGo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="GO" />
-        <!--android:onClick="goFunction"-->
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>

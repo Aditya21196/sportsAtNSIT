@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 public class LogInActivity extends AppCompatActivity {
@@ -16,7 +16,7 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        Button btn = (Button) findViewById(R.id.buttonGo);
+        ImageButton btn = (ImageButton) findViewById(R.id.buttonGo);
         btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getSharedPreferences("Data", Context.MODE_PRIVATE);
