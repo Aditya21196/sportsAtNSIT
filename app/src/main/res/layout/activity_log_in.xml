@@ -3,47 +3,72 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/textInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
             android:text="What's your home team?"
             android:textAlignment="center"
+            android:textColor="@android:color/background_light"
+            android:padding="10dp"
             android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/textYear"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Year"
+            android:orientation="vertical"
+            android:layout_marginRight="15dp"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="6dp"
-            android:textSize="20sp" />
+            android:layout_marginLeft="15dp"
+            android:padding="10dp"
+            android:background="@color/colorPrimaryMid">
 
-        <Spinner
-            android:id="@+id/spinnerYear"
+            <TextView
+                android:id="@+id/textYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:text="Year"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@android:color/white"
+                android:entries="@array/yearTypes" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:entries="@array/yearTypes" />
-
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:background="@color/colorPrimaryMid">
         <TextView
             android:id="@+id/textBranch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="6dp"
             android:text="Branch"
+            android:textColor="@android:color/background_light"
             android:textSize="20sp" />
 
         <Spinner
@@ -51,14 +76,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:background="@android:color/background_light"
             android:entries="@array/branchTypes" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:padding="10dp"
+            android:background="@color/colorPrimaryMid">
         <TextView
             android:id="@+id/textSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="6dp"
             android:text="Section"
+            android:textColor="@android:color/background_light"
             android:textSize="20sp" />
 
         <Spinner
@@ -66,8 +103,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
+            android:background="@android:color/background_light"
             android:entries="@array/sectionTypes" />
-
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
@@ -77,8 +115,8 @@
 
             <ImageButton
                 android:id="@+id/buttonGo"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:background="@drawable/right_arrow_button" />
         </LinearLayout>
     </LinearLayout>
