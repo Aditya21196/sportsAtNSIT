@@ -101,7 +101,6 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listView2.removeFooterView(progressBar);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -167,7 +166,6 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listView2.removeFooterView(progressBar);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
