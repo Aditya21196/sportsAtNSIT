@@ -130,7 +130,7 @@ public class FirebaseActivity extends AppCompatActivity {
             ((ViewGroup) spinnerYear.getParent()).removeView(spinnerYear);
         ((LinearLayout) ll).addView(spinnerYear);
 
-        params.setMargins(0, 30, 0, 0);
+        params.setMargins(0, 40, 0, 0);
         list.setLayoutParams(params);
         if (list.getParent() != null)
             ((ViewGroup) list.getParent()).removeView(list);
