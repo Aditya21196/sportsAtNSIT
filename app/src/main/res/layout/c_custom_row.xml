@@ -3,51 +3,73 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:padding="10dp"
     android:background="@color/colorPrimaryDark">
 
     <TextView
         android:id="@+id/t1f2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
         android:text="NA"
         android:textColor="@android:color/background_light"
-        android:textSize="35sp" />
+        android:textSize="33sp"
+        android:layout_marginStart="15dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/t2f2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
         android:text="NA"
         android:textColor="@android:color/background_light"
-        android:textSize="35sp" />
+        android:textSize="33sp"
+        android:layout_marginEnd="15dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/datef2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/t2f2"
-        android:layout_centerHorizontal="true"
         android:text="Date"
         android:textColor="@android:color/background_light"
-        android:textSize="15sp" />
+        android:textSize="17sp"
+        android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/Score"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/datef2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:text="Score"
+        android:layout_centerHorizontal="true">
+    <TextView
+        android:id="@+id/Score1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="S1"
         android:textColor="@android:color/background_light"
-        android:textSize="23sp" />
+        android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/colon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="@android:color/background_light"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/Score2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S2"
+        android:textColor="@android:color/background_light"
+            android:textSize="25sp" />
+    </LinearLayout>
+
 
 </RelativeLayout>

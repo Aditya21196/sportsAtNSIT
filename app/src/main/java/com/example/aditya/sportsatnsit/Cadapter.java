@@ -30,11 +30,13 @@ public class Cadapter extends ArrayAdapter<Entry> {
         TextView tv_t1 = (TextView) customView.findViewById(R.id.t1f2);
         TextView tv_t2 = (TextView) customView.findViewById(R.id.t2f2);
         TextView tv_date = (TextView) customView.findViewById(R.id.datef2);
-        TextView tv_score = (TextView) customView.findViewById(R.id.Score);
+        TextView tv_score1 = (TextView) customView.findViewById(R.id.Score1);
+        TextView tv_score2 = (TextView) customView.findViewById(R.id.Score2);
         tv_t1.setText(rData.team1);
         tv_t2.setText(rData.team2);
         tv_date.setText(rData.date);
-        tv_score.setText(rData.score1);
+        tv_score1.setText(rData.score1);
+        tv_score2.setText(rData.score2);
         return customView;
     }
 }

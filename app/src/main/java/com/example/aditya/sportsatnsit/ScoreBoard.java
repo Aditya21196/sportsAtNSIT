@@ -54,17 +54,71 @@ public class ScoreBoard extends AppCompatActivity {
         setContentView(R.layout.activity_score_board);
 
         text = (TextView) findViewById(R.id.lol);
-        if (FirebaseActivity.home)
+        if (FirebaseActivity.home) {
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
             home();
-        else
+        } else {
             mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(FirebaseActivity.selectedYear).child(FirebaseActivity.selectedSport);
-        generic();
+            generic();
+        }
     }
 
 
     void home() {
         text.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION + " " + FirebaseActivity.selectedSport);
+        final String branchSection = MainActivity.BRANCH + "-" + MainActivity.SECTION;
 
+        entriesPending = new ArrayList<>();
+        entriesCompleted = new ArrayList<>();
+
+        Query mySortingQuery = mDatabase.orderByChild("timeInMiliSec");
+
+        listView = (ExpandableHeightListView) findViewById(R.id.lv);
+        listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
+
+        final Padapter myAdapter = new Padapter(this, entriesPending);
+        final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
+
+        listView.setExpanded(true);
+        listView2.setExpanded(true);
+        listView.setAdapter(myAdapter);
+        listView2.setAdapter(myAdapter2);
+
+        mySortingQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
+                    if (value.score1.equals("-1")) {
+                        entriesPending.add(value);
+                        myAdapter.notifyDataSetChanged();
+                    } else {
+                        entriesCompleted.add(value);
+                        myAdapter2.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
