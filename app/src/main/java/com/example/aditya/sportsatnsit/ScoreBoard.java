@@ -5,11 +5,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+
+class Entry {
+    String date;
+    String time;
+    Long timeInMiliSec;
+    String team1;
+    String team2;
+    String score1;
+    String score2;
+
+    Entry() {
+
+    }
+
+    Entry(String date, String time, Long timeInMiliSec, String team1, String team2, String score1, String score2) {
+        this.date = date;
+        this.time = time;
+        this.timeInMiliSec = timeInMiliSec;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.score1 = score1;
+        this.score2 = score2;
+    }
+}
 
 public class ScoreBoard extends AppCompatActivity {
-    TextView text;
+
+    private TextView text;
+    private DatabaseReference mDatabase;
+    private ArrayList<Entry> entriesPending;
+    private ArrayList<Entry> entriesCompleted;
+
+    private ExpandableHeightListView listView;
+    private ExpandableHeightListView listView2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,50 +57,88 @@ public class ScoreBoard extends AppCompatActivity {
         if (FirebaseActivity.home)
             home();
         else
-            generic();
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(FirebaseActivity.selectedYear).child(FirebaseActivity.selectedSport);
+        generic();
     }
+
 
     void home() {
         text.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION + " " + FirebaseActivity.selectedSport);
-        Pdata d1 = new Pdata("COE 1", "COE 2", "1st august", "1:30");
-        Pdata[] dat = {
-                d1, d1, d1, d1, d1, d1
-        };
-        ExpandableHeightListView listView = (ExpandableHeightListView) findViewById(R.id.lv);
-        Padapter myAdapter = new Padapter(this, Arrays.asList(dat));
-        listView.setExpanded(true);
 
-        listView.setAdapter(myAdapter);
-        Cdata df1 = new Cdata("ICE 1", "ICE 2", "2nd august", "2:0");
-        Cdata[] dataf2 = {
-                df1, df1, df1, df1, df1, df1
-        };
-        ExpandableHeightListView listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
-        Cadapter myAdapter2 = new Cadapter(this, Arrays.asList(dataf2));
-        listView2.setExpanded(true);
-        listView2.setAdapter(myAdapter2);
     }
+
 
     void generic() {
         text.setText(FirebaseActivity.selectedYear + " " + FirebaseActivity.selectedSport);
-        text.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION + " " + FirebaseActivity.selectedSport);
-        Pdata d1 = new Pdata("COE 1", "COE 2", "1st august", "1:30");
-        Pdata[] dat = {
-                d1, d1, d1, d1, d1, d1
-        };
-        ExpandableHeightListView listView = (ExpandableHeightListView) findViewById(R.id.lv);
-        Padapter myAdapter = new Padapter(this, Arrays.asList(dat));
-        listView.setExpanded(true);
 
-        listView.setAdapter(myAdapter);
-        Cdata df1 = new Cdata("ICE 1", "ICE 2", "2nd august", "2:0");
-        Cdata[] dataf2 = {
-                df1, df1, df1, df1, df1, df1
-        };
-        ExpandableHeightListView listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
-        Cadapter myAdapter2 = new Cadapter(this, Arrays.asList(dataf2));
+        entriesPending = new ArrayList<>();
+        entriesCompleted = new ArrayList<>();
+
+        Query mySortingQuery = mDatabase.orderByChild("timeInMiliSec");
+
+        listView = (ExpandableHeightListView) findViewById(R.id.lv);
+        listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
+
+        final Padapter myAdapter = new Padapter(this, entriesPending);
+        final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
+
+        listView.setExpanded(true);
         listView2.setExpanded(true);
+        listView.setAdapter(myAdapter);
         listView2.setAdapter(myAdapter2);
 
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
+//                for (DataSnapshot entry : entries) {
+//                    Entry value = entry.getValue(Entry.class);
+//                    if (value.score1.equals("-1"))
+//                        entriesPending.add(value);
+//                    else
+//                        entriesCompleted.add(value);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+        mySortingQuery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                if (value.score1.equals("-1")) {
+                    entriesPending.add(value);
+                    myAdapter.notifyDataSetChanged();
+                } else {
+                    entriesCompleted.add(value);
+                    myAdapter2.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
 }
