@@ -41,16 +41,21 @@ class Entry {
 public class ScoreBoard extends AppCompatActivity {
 
     private TextView text;
-    private DatabaseReference mDatabase;
     private ArrayList<Entry> entriesPending;
     private ArrayList<Entry> entriesCompleted;
-
+    private DatabaseReference mDatabase;
     private ExpandableHeightListView listView;
     private ExpandableHeightListView listView2;
+    static boolean calledAlready = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!calledAlready) {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_score_board);
 
         text = (TextView) findViewById(R.id.lol);
@@ -79,8 +84,6 @@ public class ScoreBoard extends AppCompatActivity {
         final Padapter myAdapter = new Padapter(this, entriesPending);
         final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
 
-        listView.setExpanded(true);
-        listView2.setExpanded(true);
         listView.setAdapter(myAdapter);
         listView2.setAdapter(myAdapter2);
 
@@ -141,7 +144,7 @@ public class ScoreBoard extends AppCompatActivity {
         listView.setAdapter(myAdapter);
         listView2.setAdapter(myAdapter2);
 
-//        mDatabase.addValueEventListener(new ValueEventListener() {
+//        mySortingQuery.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
 //                Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
@@ -159,6 +162,12 @@ public class ScoreBoard extends AppCompatActivity {
 //
 //            }
 //        });
+//        final Padapter myAdapter = new Padapter(this, entriesPending);
+//        final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
+//        listView.setExpanded(true);
+//        listView2.setExpanded(true);
+//        listView.setAdapter(myAdapter);
+//        listView2.setAdapter(myAdapter2);
 
         mySortingQuery.addChildEventListener(new ChildEventListener() {
             @Override
