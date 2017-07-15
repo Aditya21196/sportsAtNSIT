@@ -2,15 +2,21 @@ package com.example.aditya.sportsatnsit;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.MeasureSpec;
+import android.view.ViewGroup;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
-import com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -40,17 +46,23 @@ class Entry {
 
 public class ScoreBoard extends AppCompatActivity {
 
-    private TextView text;
     private ArrayList<Entry> entriesPending;
     private ArrayList<Entry> entriesCompleted;
     private DatabaseReference mDatabase;
-    private ExpandableHeightListView listView;
-    private ExpandableHeightListView listView2;
+    private ListView listView;
+    private ListView listView2;
     static boolean calledAlready = false;
+    private ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        progressBar = (ProgressBar) LayoutInflater.from(this).inflate(R.layout.progress_bar, null);
+
+//        progressBar = (ProgressBar)findViewById(R.id.progressBar1);
+//        progressBar.setVisibility(View.VISIBLE);
+
         if (!calledAlready) {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             calledAlready = true;
@@ -58,7 +70,6 @@ public class ScoreBoard extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         setContentView(R.layout.activity_score_board);
 
-        text = (TextView) findViewById(R.id.lol);
         if (FirebaseActivity.home) {
             mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
             home();
@@ -70,7 +81,6 @@ public class ScoreBoard extends AppCompatActivity {
 
 
     void home() {
-        text.setText(MainActivity.YEAR + " " + MainActivity.BRANCH + " " + MainActivity.SECTION + " " + FirebaseActivity.selectedSport);
         final String branchSection = MainActivity.BRANCH + "-" + MainActivity.SECTION;
 
         entriesPending = new ArrayList<>();
@@ -78,14 +88,24 @@ public class ScoreBoard extends AppCompatActivity {
 
         Query mySortingQuery = mDatabase.orderByChild("timeInMiliSec");
 
-        listView = (ExpandableHeightListView) findViewById(R.id.lv);
-        listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
+        listView = (ListView) findViewById(R.id.lv);
+        listView2 = (ListView) findViewById(R.id.lv2);
 
         final Padapter myAdapter = new Padapter(this, entriesPending);
         final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
 
         listView.setAdapter(myAdapter);
         listView2.setAdapter(myAdapter2);
+        listView2.addFooterView(progressBar);
+        mySortingQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listView2.removeFooterView(progressBar);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
         mySortingQuery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -95,9 +115,11 @@ public class ScoreBoard extends AppCompatActivity {
                     if (value.score1.equals("-1")) {
                         entriesPending.add(value);
                         myAdapter.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView);
                     } else {
                         entriesCompleted.add(value);
                         myAdapter2.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView2);
                     }
                 }
             }
@@ -126,23 +148,30 @@ public class ScoreBoard extends AppCompatActivity {
 
 
     void generic() {
-        text.setText(FirebaseActivity.selectedYear + " " + FirebaseActivity.selectedSport);
-
         entriesPending = new ArrayList<>();
         entriesCompleted = new ArrayList<>();
 
         Query mySortingQuery = mDatabase.orderByChild("timeInMiliSec");
 
-        listView = (ExpandableHeightListView) findViewById(R.id.lv);
-        listView2 = (ExpandableHeightListView) findViewById(R.id.lv2);
+        listView = (ListView) findViewById(R.id.lv);
+        listView2 = (ListView) findViewById(R.id.lv2);
 
         final Padapter myAdapter = new Padapter(this, entriesPending);
         final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
 
-        listView.setExpanded(true);
-        listView2.setExpanded(true);
         listView.setAdapter(myAdapter);
         listView2.setAdapter(myAdapter2);
+        listView2.addFooterView(progressBar);
+
+        mySortingQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listView2.removeFooterView(progressBar);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
 
 //        mySortingQuery.addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -176,9 +205,11 @@ public class ScoreBoard extends AppCompatActivity {
                 if (value.score1.equals("-1")) {
                     entriesPending.add(value);
                     myAdapter.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView);
                 } else {
                     entriesCompleted.add(value);
                     myAdapter2.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView2);
                 }
             }
 
@@ -204,4 +235,27 @@ public class ScoreBoard extends AppCompatActivity {
         });
     }
 
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                return;
+            }
+            int height = 0;
+            int desiredWidth = MeasureSpec.makeMeasureSpec(mListView.getWidth(), MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
+    }
+
 }
+
+

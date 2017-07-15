@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
     android:background="@color/colorPrimary"
-    android:fadingEdge="none"
     android:fillViewport="true"
     android:isScrollContainer="true"
     android:scrollbars="none">
@@ -13,25 +12,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <TextView
-            android:id="@+id/lol"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/background_light" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
-            android:orientation="vertical">
+        android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -42,44 +23,32 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:textSize="17sp" />
 
-            <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                android:id="@+id/lv"
+        <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-        </LinearLayout>
+            android:id="@+id/lv"></ListView>
 
-        <LinearLayout
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/background_light"
+            android:text="Completed matches"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Completed matches"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@android:color/background_light"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="15dp"
-                android:layout_marginBottom="8dp"
-                android:textSize="17sp" />
-
-            <com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView
-                android:id="@+id/lv2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></com.github.paolorotolo.expandableheightlistview.ExpandableHeightListView>
-        </LinearLayout>
-
-
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv2"></ListView>
     </LinearLayout>
 </ScrollView>
