@@ -16,6 +16,7 @@
         android:layout_margin="10dp">
 
             <TextView
+                android:id="@+id/tv_pending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimaryDark"
@@ -35,6 +36,7 @@
 
 
         <TextView
+            android:id="@+id/tv_completed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"

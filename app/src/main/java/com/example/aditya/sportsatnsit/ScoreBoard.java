@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,13 +32,20 @@ public class ScoreBoard extends AppCompatActivity {
     private ListView listView2;
     static boolean calledAlready = false;
     private ProgressBar progressBar;
+    TextView tvPending;
+    TextView tvCompleted;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressBar = (ProgressBar) LayoutInflater.from(this).inflate(R.layout.progress_bar, null);
+        setContentView(R.layout.activity_score_board);
+        tvPending = (TextView) findViewById(R.id.tv_pending);
+        tvCompleted = (TextView) findViewById(R.id.tv_completed);
+        tvPending.setVisibility(View.INVISIBLE);
+        tvCompleted.setVisibility(View.INVISIBLE);
 
+        progressBar = (ProgressBar) LayoutInflater.from(this).inflate(R.layout.progress_bar, null);
 //        progressBar = (ProgressBar)findViewById(R.id.progressBar1);
 //        progressBar.setVisibility(View.VISIBLE);
 
@@ -45,7 +54,7 @@ public class ScoreBoard extends AppCompatActivity {
             calledAlready = true;
         }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        setContentView(R.layout.activity_score_board);
+
 
         if (FirebaseActivity.home) {
             mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
@@ -101,6 +110,24 @@ public class ScoreBoard extends AppCompatActivity {
                         }
                     }
                 }
+                if (entriesPending.isEmpty()) {
+                    if (entriesCompleted.isEmpty()) {
+                        finish();
+                        Toast.makeText(ScoreBoard.this, "No pending/completed matches found", Toast.LENGTH_LONG).show();
+                    } else {
+                        tvCompleted.setVisibility(View.VISIBLE);
+                        tvPending.setVisibility(View.GONE);
+                        Toast.makeText(ScoreBoard.this, "No pending matches found", Toast.LENGTH_LONG).show();
+                    }
+                } else if (entriesCompleted.isEmpty()) {
+                    tvPending.setVisibility(View.VISIBLE);
+                    tvCompleted.setVisibility(View.GONE);
+                    Toast.makeText(ScoreBoard.this, "No completed matches found", Toast.LENGTH_LONG).show();
+                } else {
+                    tvPending.setVisibility(View.VISIBLE);
+                    tvCompleted.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -220,6 +247,7 @@ public class ScoreBoard extends AppCompatActivity {
                 entriesPending.clear();
                 entriesCompleted.clear();
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
+
                 for (DataSnapshot entry : entries) {
                     Entry value = entry.getValue(Entry.class);
                     if (value.score1.equals("-1")) {
@@ -230,6 +258,24 @@ public class ScoreBoard extends AppCompatActivity {
                         ListUtils.setDynamicHeight(listView2);
                     }
                 }
+                if (entriesPending.isEmpty()) {
+                    if (entriesCompleted.isEmpty()) {
+                        finish();
+                        Toast.makeText(ScoreBoard.this, "No pending/completed matches found", Toast.LENGTH_LONG).show();
+                    } else {
+                        tvCompleted.setVisibility(View.VISIBLE);
+                        tvPending.setVisibility(View.GONE);
+                        Toast.makeText(ScoreBoard.this, "No pending matches found", Toast.LENGTH_LONG).show();
+                    }
+                } else if (entriesCompleted.isEmpty()) {
+                    tvPending.setVisibility(View.VISIBLE);
+                    tvCompleted.setVisibility(View.GONE);
+                    Toast.makeText(ScoreBoard.this, "No completed matches found", Toast.LENGTH_LONG).show();
+                } else {
+                    tvPending.setVisibility(View.VISIBLE);
+                    tvCompleted.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
