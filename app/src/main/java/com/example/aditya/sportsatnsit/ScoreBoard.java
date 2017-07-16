@@ -100,7 +100,7 @@ public class ScoreBoard extends AppCompatActivity {
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
                 for (DataSnapshot entry : entries) {
                     Entry value = entry.getValue(Entry.class);
-                    if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
+                    if (value.team1.equals(branchSection) || value.team2.equals(branchSection)) {
                         if (value.score1.equals("-1")) {
                             entriesPending.add(value);
                             ListUtils.setDynamicHeight(listView);
