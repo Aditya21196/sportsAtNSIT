@@ -10,7 +10,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,8 +18,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class ScoreBoard extends AppCompatActivity {
 
@@ -86,76 +83,24 @@ public class ScoreBoard extends AppCompatActivity {
             }
         });
 
-        mySortingQuery.addChildEventListener(new ChildEventListener() {
+        mySortingQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                String key = dataSnapshot.getKey();
-                if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
-                    if (value.score1.equals("-1")) {
-                        entriesPending.add(value);
-                        keysPending.add(key);
-                        myAdapter.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
-                    } else {
-                        entriesCompleted.add(value);
-                        keysCompleted.add(key);
-                        myAdapter2.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView2);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                entriesPending.clear();
+                entriesCompleted.clear();
+                Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
+                for (DataSnapshot entry : entries) {
+                    Entry value = entry.getValue(Entry.class);
+                    if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
+                        if (value.score1.equals("-1")) {
+                            entriesPending.add(value);
+                            ListUtils.setDynamicHeight(listView);
+                        } else {
+                            entriesCompleted.add(value);
+                            ListUtils.setDynamicHeight(listView2);
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                String key = dataSnapshot.getKey();
-
-                if (keysPending.contains(key)) {
-                    int index = keysPending.indexOf(key);
-                    if (value.score1.equals("-1")) {
-                        entriesPending.set(index, value);
-                        myAdapter.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
-                    } else {
-                        entriesPending.remove(index);
-                        entriesCompleted.add(value);
-                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
-                            @Override
-                            public int compare(Entry entry1, Entry entry2) {
-                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
-                            }
-                        });
-                        myAdapter.notifyDataSetChanged();
-                        myAdapter2.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
-                        ListUtils.setDynamicHeight(listView2);
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                String key = dataSnapshot.getKey();
-
-                if (keysPending.contains(key)) {
-                    int index = keysPending.indexOf(key);
-                    entriesPending.remove(index);
-                    myAdapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView);
-                }
-                if (keysCompleted.contains(key)) {
-                    int index = keysCompleted.indexOf(key);
-                    entriesCompleted.remove(index);
-                    myAdapter2.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView);
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -163,6 +108,84 @@ public class ScoreBoard extends AppCompatActivity {
 
             }
         });
+
+//        mySortingQuery.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                String key = dataSnapshot.getKey();
+//                if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
+//                    if (value.score1.equals("-1")) {
+//                        entriesPending.add(value);
+//                        keysPending.add(key);
+//                        myAdapter.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView);
+//                    } else {
+//                        entriesCompleted.add(value);
+//                        keysCompleted.add(key);
+//                        myAdapter2.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView2);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                String key = dataSnapshot.getKey();
+//
+//                if (keysPending.contains(key)) {
+//                    int index = keysPending.indexOf(key);
+//                    if (value.score1.equals("-1")) {
+//                        entriesPending.set(index, value);
+//                        myAdapter.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView);
+//                    } else {
+//                        entriesPending.remove(index);
+//                        entriesCompleted.add(value);
+//                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
+//                            @Override
+//                            public int compare(Entry entry1, Entry entry2) {
+//                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
+//                            }
+//                        });
+//                        myAdapter.notifyDataSetChanged();
+//                        myAdapter2.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView);
+//                        ListUtils.setDynamicHeight(listView2);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                String key = dataSnapshot.getKey();
+//
+//                if (keysPending.contains(key)) {
+//                    int index = keysPending.indexOf(key);
+//                    entriesPending.remove(index);
+//                    myAdapter.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView);
+//                }
+//                if (keysCompleted.contains(key)) {
+//                    int index = keysCompleted.indexOf(key);
+//                    entriesCompleted.remove(index);
+//                    myAdapter2.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
 
@@ -191,96 +214,22 @@ public class ScoreBoard extends AppCompatActivity {
             }
         });
 
-//        mySortingQuery.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
-//                for (DataSnapshot entry : entries) {
-//                    Entry value = entry.getValue(Entry.class);
-//                    if (value.score1.equals("-1"))
-//                        entriesPending.add(value);
-//                    else
-//                        entriesCompleted.add(value);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        final Padapter myAdapter = new Padapter(this, entriesPending);
-//        final Cadapter myAdapter2 = new Cadapter(this, entriesCompleted);
-//        listView.setExpanded(true);
-//        listView2.setExpanded(true);
-//        listView.setAdapter(myAdapter);
-//        listView2.setAdapter(myAdapter2);
-
-        mySortingQuery.addChildEventListener(new ChildEventListener() {
+        mySortingQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                if (value.score1.equals("-1")) {
-                    entriesPending.add(value);
-                    myAdapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView);
-                } else {
-                    entriesCompleted.add(value);
-                    myAdapter2.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView2);
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                String key = dataSnapshot.getKey();
-
-                if (keysPending.contains(key)) {
-                    int index = keysPending.indexOf(key);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                entriesPending.clear();
+                entriesCompleted.clear();
+                Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
+                for (DataSnapshot entry : entries) {
+                    Entry value = entry.getValue(Entry.class);
                     if (value.score1.equals("-1")) {
-                        entriesPending.set(index, value);
-                        myAdapter.notifyDataSetChanged();
+                        entriesPending.add(value);
                         ListUtils.setDynamicHeight(listView);
                     } else {
-                        entriesPending.remove(index);
                         entriesCompleted.add(value);
-                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
-                            @Override
-                            public int compare(Entry entry1, Entry entry2) {
-                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
-                            }
-                        });
-                        myAdapter.notifyDataSetChanged();
-                        myAdapter2.notifyDataSetChanged();
-                        ListUtils.setDynamicHeight(listView);
                         ListUtils.setDynamicHeight(listView2);
                     }
                 }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Entry value = dataSnapshot.getValue(Entry.class);
-                String key = dataSnapshot.getKey();
-
-                if (keysPending.contains(key)) {
-                    int index = keysPending.indexOf(key);
-                    entriesPending.remove(index);
-                    myAdapter.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView);
-                }
-                if (keysCompleted.contains(key)) {
-                    int index = keysCompleted.indexOf(key);
-                    entriesCompleted.remove(index);
-                    myAdapter2.notifyDataSetChanged();
-                    ListUtils.setDynamicHeight(listView);
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -288,6 +237,79 @@ public class ScoreBoard extends AppCompatActivity {
 
             }
         });
+
+//        mySortingQuery.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                if (value.score1.equals("-1")) {
+//                    entriesPending.add(value);
+//                    myAdapter.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView);
+//                } else {
+//                    entriesCompleted.add(value);
+//                    myAdapter2.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView2);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                String key = dataSnapshot.getKey();
+//
+//                if (keysPending.contains(key)) {
+//                    int index = keysPending.indexOf(key);
+//                    if (value.score1.equals("-1")) {
+//                        entriesPending.set(index, value);
+//                        myAdapter.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView);
+//                    } else {
+//                        entriesPending.remove(index);
+//                        entriesCompleted.add(value);
+//                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
+//                            @Override
+//                            public int compare(Entry entry1, Entry entry2) {
+//                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
+//                            }
+//                        });
+//                        myAdapter.notifyDataSetChanged();
+//                        myAdapter2.notifyDataSetChanged();
+//                        ListUtils.setDynamicHeight(listView);
+//                        ListUtils.setDynamicHeight(listView2);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Entry value = dataSnapshot.getValue(Entry.class);
+//                String key = dataSnapshot.getKey();
+//
+//                if (keysPending.contains(key)) {
+//                    int index = keysPending.indexOf(key);
+//                    entriesPending.remove(index);
+//                    myAdapter.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView);
+//                }
+//                if (keysCompleted.contains(key)) {
+//                    int index = keysCompleted.indexOf(key);
+//                    entriesCompleted.remove(index);
+//                    myAdapter2.notifyDataSetChanged();
+//                    ListUtils.setDynamicHeight(listView);
+//                }
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 
     public static class ListUtils {
