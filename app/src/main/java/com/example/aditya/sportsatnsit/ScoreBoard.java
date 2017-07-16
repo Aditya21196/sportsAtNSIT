@@ -20,30 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-class Entry {
-    String date;
-    String time;
-    Long timeInMiliSec;
-    String team1;
-    String team2;
-    String score1;
-    String score2;
-
-    Entry() {
-
-    }
-
-    Entry(String date, String time, Long timeInMiliSec, String team1, String team2, String score1, String score2) {
-        this.date = date;
-        this.time = time;
-        this.timeInMiliSec = timeInMiliSec;
-        this.team1 = team1;
-        this.team2 = team2;
-        this.score1 = score1;
-        this.score2 = score2;
-    }
-}
-
 public class ScoreBoard extends AppCompatActivity {
 
     private ArrayList<Entry> entriesPending;
