@@ -19,11 +19,15 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ScoreBoard extends AppCompatActivity {
 
     private ArrayList<Entry> entriesPending;
     private ArrayList<Entry> entriesCompleted;
+    private ArrayList<String> keysPending;
+    private ArrayList<String> keysCompleted;
     private DatabaseReference mDatabase;
     private ListView listView;
     private ListView listView2;
@@ -86,13 +90,16 @@ public class ScoreBoard extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Entry value = dataSnapshot.getValue(Entry.class);
+                String key = dataSnapshot.getKey();
                 if (value.team1.equals(branchSection) || value.team1.equals(branchSection)) {
                     if (value.score1.equals("-1")) {
                         entriesPending.add(value);
+                        keysPending.add(key);
                         myAdapter.notifyDataSetChanged();
                         ListUtils.setDynamicHeight(listView);
                     } else {
                         entriesCompleted.add(value);
+                        keysCompleted.add(key);
                         myAdapter2.notifyDataSetChanged();
                         ListUtils.setDynamicHeight(listView2);
                     }
@@ -101,12 +108,49 @@ public class ScoreBoard extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                String key = dataSnapshot.getKey();
 
+                if (keysPending.contains(key)) {
+                    int index = keysPending.indexOf(key);
+                    if (value.score1.equals("-1")) {
+                        entriesPending.set(index, value);
+                        myAdapter.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView);
+                    } else {
+                        entriesPending.remove(index);
+                        entriesCompleted.add(value);
+                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
+                            @Override
+                            public int compare(Entry entry1, Entry entry2) {
+                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
+                            }
+                        });
+                        myAdapter.notifyDataSetChanged();
+                        myAdapter2.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView);
+                        ListUtils.setDynamicHeight(listView2);
+                    }
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                String key = dataSnapshot.getKey();
 
+                if (keysPending.contains(key)) {
+                    int index = keysPending.indexOf(key);
+                    entriesPending.remove(index);
+                    myAdapter.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView);
+                }
+                if (keysCompleted.contains(key)) {
+                    int index = keysCompleted.indexOf(key);
+                    entriesCompleted.remove(index);
+                    myAdapter2.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView);
+                }
             }
 
             @Override
@@ -189,12 +233,49 @@ public class ScoreBoard extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                String key = dataSnapshot.getKey();
 
+                if (keysPending.contains(key)) {
+                    int index = keysPending.indexOf(key);
+                    if (value.score1.equals("-1")) {
+                        entriesPending.set(index, value);
+                        myAdapter.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView);
+                    } else {
+                        entriesPending.remove(index);
+                        entriesCompleted.add(value);
+                        Collections.sort(entriesCompleted, new Comparator<Entry>() {
+                            @Override
+                            public int compare(Entry entry1, Entry entry2) {
+                                return entry1.timeInMiliSec.compareTo(entry2.timeInMiliSec);
+                            }
+                        });
+                        myAdapter.notifyDataSetChanged();
+                        myAdapter2.notifyDataSetChanged();
+                        ListUtils.setDynamicHeight(listView);
+                        ListUtils.setDynamicHeight(listView2);
+                    }
+                }
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Entry value = dataSnapshot.getValue(Entry.class);
+                String key = dataSnapshot.getKey();
 
+                if (keysPending.contains(key)) {
+                    int index = keysPending.indexOf(key);
+                    entriesPending.remove(index);
+                    myAdapter.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView);
+                }
+                if (keysCompleted.contains(key)) {
+                    int index = keysCompleted.indexOf(key);
+                    entriesCompleted.remove(index);
+                    myAdapter2.notifyDataSetChanged();
+                    ListUtils.setDynamicHeight(listView);
+                }
             }
 
             @Override
