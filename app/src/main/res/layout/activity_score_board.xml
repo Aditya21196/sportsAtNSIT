@@ -25,6 +25,7 @@
             android:paddingLeft="15dp"
             android:paddingTop="10dp"
             android:background="@color/colorPrimaryDark"
+            android:textSize="22sp"
             android:text="Sport" />
 
         <TextView
