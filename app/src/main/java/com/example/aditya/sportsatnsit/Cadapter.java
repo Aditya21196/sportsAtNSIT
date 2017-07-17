@@ -3,6 +3,7 @@ package com.example.aditya.sportsatnsit;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,12 @@ public class Cadapter extends ArrayAdapter<Entry> {
         TextView tv_date = (TextView) customView.findViewById(R.id.datef2);
         TextView tv_score1 = (TextView) customView.findViewById(R.id.Score1);
         TextView tv_score2 = (TextView) customView.findViewById(R.id.Score2);
+        TextView tv_colon = (TextView)customView.findViewById(R.id.colon);
+        if(FirebaseActivity.selectedSport.equals("Cricket")){
+            tv_score1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            tv_score2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            tv_colon.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        }
         tv_t1.setText(rData.team1);
         tv_t2.setText(rData.team2);
         tv_date.setText(rData.date);
