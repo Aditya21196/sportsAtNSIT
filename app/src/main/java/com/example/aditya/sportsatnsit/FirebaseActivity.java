@@ -65,7 +65,8 @@ public class FirebaseActivity extends AppCompatActivity {
         sportsArrayList.add("Kabaddi");
         sportsArrayList.add("Cricket");
         sportsArrayList.add("Basketball");
-        sportsArrayList.add("Tabletennis");
+        sportsArrayList.add("Badminton");
+        sportsArrayList.add("TableTennis");
         sportsArrayList.add("Chess");
         list = new ListView(this);
         arrayAdapter = new ArrayAdapter<String>(
