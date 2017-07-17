@@ -80,7 +80,7 @@
         android:layout_below="@+id/llc"
         android:layout_centerHorizontal="true"
         android:text="Tag"
-        android:textColor="@android:color/background_light"
+        android:textColor="@color/colorAccent"
         android:textSize="17sp" />
 
 
