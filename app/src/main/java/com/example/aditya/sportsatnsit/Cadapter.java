@@ -34,6 +34,7 @@ public class Cadapter extends ArrayAdapter<Entry> {
         TextView tv_score1 = (TextView) customView.findViewById(R.id.Score1);
         TextView tv_score2 = (TextView) customView.findViewById(R.id.Score2);
         TextView tv_colon = (TextView)customView.findViewById(R.id.colon);
+        TextView tv_tag = (TextView) customView.findViewById(R.id.cTag);
         if (FirebaseActivity.selectedSport.equals("Cricket")) {
             tv_score1.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
             tv_score2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -46,6 +47,9 @@ public class Cadapter extends ArrayAdapter<Entry> {
         tv_date.setText(rData.date);
         tv_score1.setText(rData.score1);
         tv_score2.setText(rData.score2);
+        tv_tag.setText(rData.tag);
+        if (rData.tag.equals(""))
+            tv_tag.setVisibility(View.GONE);
         return customView;
     }
 }

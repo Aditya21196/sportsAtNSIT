@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class ScoreBoard extends AppCompatActivity {
 
+    private final String DB = "db1";
     private ArrayList<Entry> entriesPending;
     private ArrayList<Entry> entriesCompleted;
     private ArrayList<String> keysPending;
@@ -57,10 +58,10 @@ public class ScoreBoard extends AppCompatActivity {
 
 
         if (FirebaseActivity.home) {
-            mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(DB).child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
             home();
         } else {
-            mDatabase = FirebaseDatabase.getInstance().getReference().child("db2").child(FirebaseActivity.selectedYear).child(FirebaseActivity.selectedSport);
+            mDatabase = FirebaseDatabase.getInstance().getReference().child(DB).child(FirebaseActivity.selectedYear).child(FirebaseActivity.selectedSport);
             generic();
         }
     }
