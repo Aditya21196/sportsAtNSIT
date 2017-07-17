@@ -31,6 +31,7 @@ public class ScoreBoard extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private ListView listView;
     private ListView listView2;
+    private TextView textSport;
     static boolean calledAlready = false;
     private ProgressBar progressBar;
     TextView tvPending;
@@ -43,6 +44,7 @@ public class ScoreBoard extends AppCompatActivity {
         setContentView(R.layout.activity_score_board);
         tvPending = (TextView) findViewById(R.id.tv_pending);
         tvCompleted = (TextView) findViewById(R.id.tv_completed);
+        textSport = (TextView) findViewById(R.id.textSport);
         tvPending.setVisibility(View.INVISIBLE);
         tvCompleted.setVisibility(View.INVISIBLE);
 
@@ -56,6 +58,7 @@ public class ScoreBoard extends AppCompatActivity {
         }
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
+        textSport.setText(FirebaseActivity.selectedSport);
 
         if (FirebaseActivity.home) {
             mDatabase = FirebaseDatabase.getInstance().getReference().child(DB).child(MainActivity.YEAR).child(FirebaseActivity.selectedSport);
