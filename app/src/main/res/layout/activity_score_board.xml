@@ -22,10 +22,11 @@
             android:id="@+id/textSport"
             android:textColor="@android:color/background_light"
             android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
+            android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
             android:background="@color/colorPrimaryDark"
             android:textSize="22sp"
+            android:textAlignment="center"
             android:text="Sport" />
 
         <TextView
