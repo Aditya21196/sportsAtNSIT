@@ -17,36 +17,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/textSport"
-            android:textColor="@android:color/background_light"
-            android:paddingBottom="10dp"
-            android:layout_marginBottom="10dp"
-            android:paddingTop="10dp"
-            android:background="@color/colorPrimaryDark"
-            android:textSize="22sp"
-            android:textAlignment="center"
-            android:text="Sport" />
-
-        <TextView
-            android:id="@+id/tv_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
             android:background="@color/colorPrimaryDark"
-            android:paddingBottom="5dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:text="Pending matches"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Sport"
+            android:textAlignment="center"
             android:textColor="@android:color/background_light"
-            android:textSize="17sp" />
-
-        <ListView
-            android:id="@+id/lv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:textSize="22sp" />
 
 
         <TextView
@@ -59,7 +40,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
-            android:text="Completed matches"
+            android:text="Played matches"
             android:textColor="@android:color/background_light"
             android:textSize="17sp" />
 
@@ -68,5 +49,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"></ListView>
+
+        <TextView
+            android:id="@+id/tv_pending"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="5dp"
+            android:text="Upcoming matches"
+            android:textColor="@android:color/background_light"
+            android:textSize="17sp" />
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
     </LinearLayout>
 </ScrollView>
