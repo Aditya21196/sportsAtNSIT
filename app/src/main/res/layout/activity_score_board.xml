@@ -47,8 +47,7 @@
         <ListView
             android:id="@+id/lv2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"></ListView>
+            android:layout_height="wrap_content"></ListView>
 
         <TextView
             android:id="@+id/tv_pending"
@@ -67,6 +66,7 @@
         <ListView
             android:id="@+id/lv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"></ListView>
     </LinearLayout>
 </ScrollView>
