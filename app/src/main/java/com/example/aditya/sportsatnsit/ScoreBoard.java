@@ -103,7 +103,10 @@ public class ScoreBoard extends AppCompatActivity {
                 entriesCompleted.clear();
                 myAdapter.notifyDataSetChanged();
                 myAdapter2.notifyDataSetChanged();
+                ListUtils.setDynamicHeight(listView);
+                ListUtils.setDynamicHeight(listView2);
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
+
                 for (DataSnapshot entry : entries) {
                     Entry value = entry.getValue(Entry.class);
                     if (value.team1.equals(branchSection) || value.team2.equals(branchSection)) {
@@ -254,6 +257,8 @@ public class ScoreBoard extends AppCompatActivity {
                 entriesCompleted.clear();
                 myAdapter.notifyDataSetChanged();
                 myAdapter2.notifyDataSetChanged();
+                ListUtils.setDynamicHeight(listView);
+                ListUtils.setDynamicHeight(listView2);
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
 
                 for (DataSnapshot entry : entries) {
