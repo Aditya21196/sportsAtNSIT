@@ -101,6 +101,8 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 entriesPending.clear();
                 entriesCompleted.clear();
+                myAdapter.notifyDataSetChanged();
+                myAdapter2.notifyDataSetChanged();
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
                 for (DataSnapshot entry : entries) {
                     Entry value = entry.getValue(Entry.class);
@@ -250,6 +252,8 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 entriesPending.clear();
                 entriesCompleted.clear();
+                myAdapter.notifyDataSetChanged();
+                myAdapter2.notifyDataSetChanged();
                 Iterable<DataSnapshot> entries = dataSnapshot.getChildren();
 
                 for (DataSnapshot entry : entries) {
