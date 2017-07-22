@@ -1,7 +1,11 @@
 package com.example.aditya.sportsatnsit;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
@@ -21,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ScoreBoard extends AppCompatActivity {
+public class ScoreBoard extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     private final String DB = "db1";
     private ArrayList<Entry> entriesPending;
@@ -36,12 +40,37 @@ public class ScoreBoard extends AppCompatActivity {
     private ProgressBar progressBar;
     TextView tvPending;
     TextView tvCompleted;
+    Snackbar snackbar;
+    private NetworkStateReceiver networkStateReceiver;
+
+    @Override
+    public void onNetworkAvailable() {
+        if (snackbar.isShown()) {
+            snackbar.dismiss();
+            Log.d("snackbar", "Hiding");
+        }
+    }
+
+    @Override
+    public void onNetworkUnavailable() {
+        if (!snackbar.isShown()) {
+            snackbar.show();
+            Log.d("snackbar", "Showing");
+        }
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
+
+        snackbar = Snackbar.make((CoordinatorLayout) findViewById(R.id.coordinatorLayout), "Unable to connect to the Internet", Snackbar.LENGTH_INDEFINITE);
+        networkStateReceiver = new NetworkStateReceiver(this);
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+
+
         tvPending = (TextView) findViewById(R.id.tv_pending);
         tvCompleted = (TextView) findViewById(R.id.tv_completed);
         textSport = (TextView) findViewById(R.id.textSport);
@@ -91,6 +120,7 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listView2.removeFooterView(progressBar);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -136,12 +166,10 @@ public class ScoreBoard extends AppCompatActivity {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -245,6 +273,7 @@ public class ScoreBoard extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listView2.removeFooterView(progressBar);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -288,12 +317,10 @@ public class ScoreBoard extends AppCompatActivity {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -390,6 +417,12 @@ public class ScoreBoard extends AppCompatActivity {
             mListView.setLayoutParams(params);
             mListView.requestLayout();
         }
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        networkStateReceiver.removeListener(this);
+        this.unregisterReceiver(networkStateReceiver);
     }
 
 }
