@@ -152,16 +152,16 @@ public class ScoreBoard extends AppCompatActivity implements NetworkStateReceive
                 if (entriesPending.isEmpty()) {
                     if (entriesCompleted.isEmpty()) {
                         finish();
-                        Toast.makeText(ScoreBoard.this, "No pending/completed matches found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScoreBoard.this, "No upcoming/played matches found", Toast.LENGTH_SHORT).show();
                     } else {
                         tvCompleted.setVisibility(View.VISIBLE);
                         tvPending.setVisibility(View.GONE);
-                        Toast.makeText(ScoreBoard.this, "No pending matches found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScoreBoard.this, "No upcoming matches found", Toast.LENGTH_SHORT).show();
                     }
                 } else if (entriesCompleted.isEmpty()) {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.GONE);
-                    Toast.makeText(ScoreBoard.this, "No completed matches found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreBoard.this, "No played matches found", Toast.LENGTH_SHORT).show();
                 } else {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.VISIBLE);
@@ -303,16 +303,16 @@ public class ScoreBoard extends AppCompatActivity implements NetworkStateReceive
                 if (entriesPending.isEmpty()) {
                     if (entriesCompleted.isEmpty()) {
                         finish();
-                        Toast.makeText(ScoreBoard.this, "No pending/completed matches found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScoreBoard.this, "No upcoming/played matches found", Toast.LENGTH_SHORT).show();
                     } else {
                         tvCompleted.setVisibility(View.VISIBLE);
                         tvPending.setVisibility(View.GONE);
-                        Toast.makeText(ScoreBoard.this, "No pending matches found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScoreBoard.this, "No upcoming matches found", Toast.LENGTH_SHORT).show();
                     }
                 } else if (entriesCompleted.isEmpty()) {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.GONE);
-                    Toast.makeText(ScoreBoard.this, "No completed matches found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ScoreBoard.this, "No played matches found", Toast.LENGTH_SHORT).show();
                 } else {
                     tvPending.setVisibility(View.VISIBLE);
                     tvCompleted.setVisibility(View.VISIBLE);
